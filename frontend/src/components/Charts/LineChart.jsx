@@ -11,6 +11,7 @@ function LineChart() {
           type: "x",
         },
         toolbar: {
+          show: false,
           tools: {
             zoom: true,
             zoomin: true,
@@ -19,6 +20,9 @@ function LineChart() {
             reset: true,
           },
         },
+      },
+      stroke: {
+        curve: "smooth", // <--- aici faci linia rotundă
       },
       xaxis: {
         type: "datetime",
@@ -45,7 +49,7 @@ function LineChart() {
   });
 
   return (
-    <div style={{ maxWidth: 800, margin: "auto" }}>
+    <div style={{ width: "100%", margin: "auto" }}>
       <ReactApexChart
         options={state.options}
         series={state.series}

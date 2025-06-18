@@ -18,6 +18,22 @@ app.use(
 );
 app.use(express.json());
 
+//DB connection
+const pool = require("./db");
+async function checkConnection() {
+  try {
+    const connection = await pool.getConnection();
+
+    await connection.ping();
+    console.log("Conexiunea la MySQL este OK!");
+    connection.release();
+  } catch (err) {
+    console.error("Eroare la conexiunea MySQL:", err);
+  }
+}
+
+checkConnection();
+
 app.get("/", (req, res) => {
   res.send("Server is running ");
 });

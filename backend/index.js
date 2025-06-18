@@ -28,7 +28,7 @@ async function checkConnection() {
     console.log("Conexiunea la MySQL este OK!");
     connection.release();
   } catch (err) {
-    console.error("Eroare la conexiunea MySQL:", err);
+    console.error("Eroare la conexiuneaa MySQL:", err);
   }
 }
 

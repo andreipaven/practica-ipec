@@ -25,10 +25,10 @@ async function checkConnection() {
     const connection = await pool.getConnection();
 
     await connection.ping();
-    console.log("Conexiunea la MySQL este OK!");
+    console.log("DB connection successfully!");
     connection.release();
   } catch (err) {
-    console.error("Eroare la conexiuneaa MySQL:", err);
+    console.error("Failed connection DB:", err);
   }
 }
 

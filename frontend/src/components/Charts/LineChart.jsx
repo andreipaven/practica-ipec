@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import { fetchGetReports } from "../../Services/reportService.js";
 
 function LineChart() {
   const [state] = useState({
@@ -47,7 +48,12 @@ function LineChart() {
       },
     ],
   });
-
+  useEffect(() => {
+    console.log("aici");
+    fetchGetReports().then((result) => {
+      console.log(result.result);
+    });
+  }, []);
   return (
     <div style={{ width: "100%", margin: "auto" }}>
       <ReactApexChart

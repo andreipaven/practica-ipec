@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CustomBox from "../Containers/CustomBox.jsx";
 import MobileNavBar from "../NavBars/MobileNavBar.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
 
-function Header(props) {
+function Header({ periodX, equipmentX }) {
   return (
     <CustomBox width={"100%"}>
       <CustomBox
@@ -11,7 +11,7 @@ function Header(props) {
         padding={"1em"}
         backgroundColor={themeColors.palette.primary.light}
       >
-        <MobileNavBar />
+        <MobileNavBar onChangePeriod={periodX} onChangeEquipment={equipmentX} />
       </CustomBox>
     </CustomBox>
   );

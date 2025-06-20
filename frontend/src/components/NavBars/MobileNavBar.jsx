@@ -1,32 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomBox from "../Containers/CustomBox.jsx";
 import { Typography } from "@mui/material";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import CustomSelect from "../Buttons/CustomSelect.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
-import useResponsive from "../Hooks/useResponsive.jsx";
 
-function MobileNavBar() {
-  const { isSmallScreen } = useResponsive();
+function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
   const [period, setPeriod] = useState("");
   const [equipment, setEquipment] = useState("");
 
   const handlePeriodChange = (e) => {
     setPeriod(e.target.value);
+    onChangePeriod(e.target.value);
   };
   const handleEquipmentChange = (e) => {
     setEquipment(e.target.value);
+    onChangeEquipment(e.target.value);
   };
 
   const periodOptions = [
-    { value: "day", label: "Day" },
-    { value: "month", label: "Month" },
-    { value: "year", label: "Year" },
+    { value: "2025-01-31", label: "Last Day" },
+    { value: "2025-01-24", label: "Last Week" },
+    { value: "2025-01-01", label: "Last Month" },
   ];
   const equipmentOptions = [
-    { value: "TD3", label: "TD3" },
-    { value: "CS3", label: "CS3" },
-    { value: "MM3", label: "MM3" },
+    { value: "TD7", label: "TD7" },
+    { value: "TD6", label: "TD6" },
+    { value: "TD5", label: "TD5" },
   ];
 
   return (
@@ -37,23 +37,11 @@ function MobileNavBar() {
             backgroundColor: themeColors.palette.secondary.main,
             color: themeColors.palette.primary.light,
             fontSize: "3em",
-            boxShadow: 10,
-            borderRadius: "16px",
           }}
         />
-        <Typography
-          display={isSmallScreen ? "none" : "flex"}
-          fontSize="2em"
-          fontWeight="bold"
-          sx={{
-            fontFamily: '"Roboto Slab", serif',
-            textShadow: "1px 5px 8px rgba(0,0,0,0.6)",
-          }}
-        >
-          Energy Tracker
-        </Typography>
+        <Typography fontSize={"2em"}>Energy Tracker</Typography>
       </CustomBox>
-      <CustomBox width={"fit-content"} flexDirection={"row"} gap={"2em"}>
+      <CustomBox width={"fit-content"} flexDirection={"row"} gap={".5em"}>
         <CustomSelect
           label="Period"
           value={period}

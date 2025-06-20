@@ -16,12 +16,11 @@ function CustomSelect({
   const shouldShrink = isFocused || value !== "";
 
   return (
-    <FormControl sx={{ maxWidth: maxWidth, minWidth: minWidth, boxShadow: 3 }}>
+    <FormControl sx={{ maxWidth: maxWidth, minWidth: minWidth }}>
       {/* Label legat corect cu labelId */}
       <InputLabel id={`${id}-label`}>{label}</InputLabel>
       <Select
         labelId={`${id}-label`}
-        id={id}
         value={value}
         label={shouldShrink ? label : undefined}
         onChange={onChange}

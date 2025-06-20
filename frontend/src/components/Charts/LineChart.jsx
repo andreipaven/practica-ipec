@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import { fetchGetReports } from "../../Services/reportService.js";
 
 function LineChart() {
   const [state] = useState({
@@ -11,6 +12,7 @@ function LineChart() {
           type: "x",
         },
         toolbar: {
+          show: false,
           tools: {
             zoom: true,
             zoomin: true,
@@ -19,6 +21,9 @@ function LineChart() {
             reset: true,
           },
         },
+      },
+      stroke: {
+        curve: "smooth", // <--- aici faci linia rotundă
       },
       xaxis: {
         type: "datetime",
@@ -43,9 +48,14 @@ function LineChart() {
       },
     ],
   });
-
+  useEffect(() => {
+    console.log("aici");
+    fetchGetReports().then((result) => {
+      console.log(result.result);
+    });
+  }, []);
   return (
-    <div style={{ maxWidth: 800, margin: "auto" }}>
+    <div style={{ width: "100%", margin: "auto" }}>
       <ReactApexChart
         options={state.options}
         series={state.series}

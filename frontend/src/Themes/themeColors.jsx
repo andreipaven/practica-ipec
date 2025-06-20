@@ -1,0 +1,26 @@
+import { createTheme } from "@mui/material/styles";
+
+const themeColors = createTheme({
+  palette: {
+    primary: {
+      main: "#F9FAFB",
+      dark: "#f4f4f4",
+      contrastText: "#cff",
+      light: "#fff",
+    },
+    secondary: {
+      main: "#00c4ff",
+      contrastText: "#000",
+    },
+    success: {
+      main: "#fff",
+      light: "#00cd03",
+      dark: "#02b105",
+    },
+    error: {
+      main: "#ff0000",
+    },
+  },
+});
+
+export default themeColors;

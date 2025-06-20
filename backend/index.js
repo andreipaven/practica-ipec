@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 
-// const adminRoutes = require("./routes/admin");
+const counterRoutes = require("./routes/counter");
 
 //PORT
 const app = express();
@@ -18,11 +18,27 @@ app.use(
 );
 app.use(express.json());
 
+//DB connection
+const pool = require("./db");
+async function checkConnection() {
+  try {
+    const connection = await pool.getConnection();
+
+    await connection.ping();
+    console.log("DB connection successfully!");
+    connection.release();
+  } catch (err) {
+    console.error("Failed connection DB:", err);
+  }
+}
+
+checkConnection();
+
 app.get("/", (req, res) => {
   res.send("Server is running ");
 });
 // routes
-// app.use("/api/admin", adminRoutes);
+app.use("/api/counter", counterRoutes);
 
 app.listen(port, "0.0.0.0", () => {
   console.log(`The server running on http://localhost:${port}`);

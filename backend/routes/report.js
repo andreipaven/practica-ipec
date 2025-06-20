@@ -3,10 +3,11 @@ const router = express.Router();
 
 const pool = require("../db");
 
-router.post("/get", async (req, res) => {
+router.post("/get-day", async (req, res) => {
+  const { day } = req.body;
   try {
-    const sql = "SELECT * FROM reports";
-    const [results] = await pool.execute(sql);
+    const sql = "SELECT * FROM reports WHERE CREATED LIKE ? limit 30000";
+    const [results] = await pool.execute(sql, [`${day}%`]);
 
     if (!results) {
       return res.status(500).json({

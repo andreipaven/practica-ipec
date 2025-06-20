@@ -2,7 +2,7 @@ import React from "react";
 import CustomBox from "../components/Containers/CustomBox.jsx";
 import { Typography } from "@mui/material";
 import useResponsive from "../components/Hooks/useResponsive.jsx";
-import LineChart from "../components/Charts/LineChart.jsx";
+import MainChart from "../components/Charts/MainChart.jsx";
 
 function HomePage() {
   const { isSmallScreen } = useResponsive();
@@ -14,7 +14,7 @@ function HomePage() {
             Diagrama pe anul trecut
           </Typography>
           <CustomBox>
-            <LineChart />
+            <MainChart />
           </CustomBox>
         </CustomBox>
       </CustomBox>

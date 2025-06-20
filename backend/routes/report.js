@@ -6,7 +6,7 @@ const pool = require("../db");
 router.post("/get-day", async (req, res) => {
   const { day } = req.body;
   try {
-    const sql = "SELECT * FROM reports WHERE CREATED >=?";
+    const sql = "SELECT * FROM reports WHERE created >=?  ";
     const [results] = await pool.execute(sql, [`${day}%`]);
 
     if (!results) {

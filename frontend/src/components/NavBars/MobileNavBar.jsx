@@ -3,6 +3,7 @@ import CustomBox from "../Containers/CustomBox.jsx";
 import { Typography } from "@mui/material";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import CustomSelect from "../Buttons/CustomSelect.jsx";
+import themeColors from "../../Themes/themeColors.jsx";
 
 function MobileNavBar() {
   const [period, setPeriod] = useState("Day");
@@ -28,9 +29,15 @@ function MobileNavBar() {
 
   return (
     <CustomBox flexDirection={"row"} justifyContent={"space-between"}>
-      <CustomBox flexDirection={"row"} width={"fit-content"}>
-        <ElectricBoltIcon />
-        <Typography>Energy Tracker</Typography>
+      <CustomBox flexDirection={"row"} width={"fit-content"} gap={"1em"}>
+        <ElectricBoltIcon
+          sx={{
+            backgroundColor: themeColors.palette.secondary.main,
+            color: themeColors.palette.primary.light,
+            fontSize: "3em",
+          }}
+        />
+        <Typography fontSize={"2em"}>Energy Tracker</Typography>
       </CustomBox>
       <CustomBox flexDirection={"row"} width={"fit-content"} gap={"1em"}>
         <CustomBox width={"fit-content"}>

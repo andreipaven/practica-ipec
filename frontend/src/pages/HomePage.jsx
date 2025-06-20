@@ -2,7 +2,7 @@ import React from "react";
 import CustomBox from "../components/Containers/CustomBox.jsx";
 import { Typography } from "@mui/material";
 import useResponsive from "../components/Hooks/useResponsive.jsx";
-import LineChart from "../components/Charts/LineChart.jsx";
+import MainChart from "../components/Charts/MainChart.jsx";
 import Header from "../components/Header/Header.jsx";
 import themeColors from "../Themes/themeColors.jsx";
 
@@ -18,7 +18,7 @@ function HomePage() {
             Diagrama pe anul trecut
           </Typography>
           <CustomBox backgroundColor={themeColors.palette.primary.light}>
-            <LineChart />
+            <MainChart />
           </CustomBox>
         </CustomBox>
       </CustomBox>

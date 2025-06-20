@@ -4,10 +4,11 @@ const router = express.Router();
 const pool = require("../db");
 
 router.post("/get-day", async (req, res) => {
-  const { day } = req.body;
+  const { period, equipment } = req.body;
   try {
-    const sql = "SELECT * FROM reports WHERE created >=?  ";
-    const [results] = await pool.execute(sql, [`${day}%`]);
+    const sql =
+      "SELECT DATE(created) AS day, SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) AS equipment, MAX(val) - MIN(val) AS daily_consumption FROM reports WHERE created >= ? AND SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) = ? GROUP BY day, equipment ORDER BY day DESC;";
+    const [results] = await pool.execute(sql, [`${period}%`, `${equipment}`]);
 
     if (!results) {
       return res.status(500).json({

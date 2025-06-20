@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { fetchGetReports } from "../../Services/reportService.js";
+import useResponsive from "../Hooks/useResponsive.jsx";
 
 function MainChart({ period }) {
+  const { isSmallScreen } = useResponsive();
   const [series, setSeries] = useState([]);
 
   const [state] = useState({
@@ -42,19 +44,19 @@ function MainChart({ period }) {
   });
 
   useEffect(() => {
-    fetchGetReports("2025-01-25").then((result) => {
+    fetchGetReports("2025-01-24", "TD7").then((result) => {
       if (result.success) {
         console.log(result.result);
         const rawData = result.result;
 
         const chartData = rawData
-          .map(({ created, val }) => {
-            if (!created || val === undefined) return null;
-            const dateObj = new Date(created.replace(" ", "T"));
+          .map(({ day, daily_consumption }) => {
+            if (!day || daily_consumption === undefined) return null;
+            const dateObj = new Date(day);
             if (isNaN(dateObj)) return null;
             return {
-              x: dateObj.getTime(),
-              y: val,
+              x: dateObj.getTime(), // timestamp pentru ApexCharts
+              y: daily_consumption, // valoarea consumului
             };
           })
           .filter(Boolean);
@@ -85,7 +87,7 @@ function MainChart({ period }) {
         options={state.options}
         series={series}
         type="area"
-        height={350}
+        height={isSmallScreen ? 200 : 400}
       />
     </div>
   );

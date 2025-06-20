@@ -16,7 +16,7 @@ function CustomSelect({
   const shouldShrink = isFocused || value !== "";
 
   return (
-    <FormControl fullWidth sx={{ maxWidth: maxWidth, minWidth: maxWidth }}>
+    <FormControl sx={{ maxWidth: maxWidth, minWidth: minWidth, boxShadow: 3 }}>
       {/* Label legat corect cu labelId */}
       <InputLabel id={`${id}-label`}>{label}</InputLabel>
       <Select
@@ -33,7 +33,7 @@ function CustomSelect({
         {...rest}
       >
         {/* Placeholder vizual */}
-        {value === "" && (
+        {value === undefined && (
           <MenuItem value="" disabled>
             {isFocused ? undefined : label}
           </MenuItem>

@@ -4,8 +4,10 @@ import { Typography } from "@mui/material";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import CustomSelect from "../Buttons/CustomSelect.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
+import useResponsive from "../Hooks/useResponsive.jsx";
 
 function MobileNavBar() {
+  const { isSmallScreen } = useResponsive();
   const [period, setPeriod] = useState("");
   const [equipment, setEquipment] = useState("");
 
@@ -35,11 +37,23 @@ function MobileNavBar() {
             backgroundColor: themeColors.palette.secondary.main,
             color: themeColors.palette.primary.light,
             fontSize: "3em",
+            boxShadow: 10,
+            borderRadius: "16px",
           }}
         />
-        <Typography fontSize={"2em"}>Energy Tracker</Typography>
+        <Typography
+          display={isSmallScreen ? "none" : "flex"}
+          fontSize="2em"
+          fontWeight="bold"
+          sx={{
+            fontFamily: '"Roboto Slab", serif',
+            textShadow: "1px 5px 8px rgba(0,0,0,0.6)",
+          }}
+        >
+          Energy Tracker
+        </Typography>
       </CustomBox>
-      <CustomBox width={"fit-content"} flexDirection={"row"} gap={".5em"}>
+      <CustomBox width={"fit-content"} flexDirection={"row"} gap={"2em"}>
         <CustomSelect
           label="Period"
           value={period}

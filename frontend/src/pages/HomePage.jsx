@@ -4,11 +4,12 @@ import { Typography } from "@mui/material";
 import useResponsive from "../components/Hooks/useResponsive.jsx";
 import MainChart from "../components/Charts/MainChart.jsx";
 import Header from "../components/Header/Header.jsx";
+import themeColors from "../Themes/themeColors.jsx";
 
 function HomePage() {
   const { isSmallScreen } = useResponsive();
   return (
-    <CustomBox>
+    <CustomBox backgroundColor={themeColors.palette.primary.main}>
       <CustomBox>
         <Header />
         <CustomBox maxWidth={"100em"} padding={isSmallScreen ? "1em" : "3em"}>

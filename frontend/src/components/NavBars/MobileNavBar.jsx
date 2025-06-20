@@ -6,8 +6,8 @@ import CustomSelect from "../Buttons/CustomSelect.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
 
 function MobileNavBar() {
-  const [period, setPeriod] = useState("Day");
-  const [equipment, setEquipment] = useState("All Equipments");
+  const [period, setPeriod] = useState("");
+  const [equipment, setEquipment] = useState("");
 
   const handlePeriodChange = (e) => {
     setPeriod(e.target.value);
@@ -39,29 +39,23 @@ function MobileNavBar() {
         />
         <Typography fontSize={"2em"}>Energy Tracker</Typography>
       </CustomBox>
-      <CustomBox flexDirection={"row"} width={"fit-content"} gap={"1em"}>
-        <CustomBox width={"fit-content"}>
-          <CustomSelect
-            label="Period"
-            value={period}
-            onChange={handlePeriodChange}
-            options={periodOptions}
-            placeholder="Select a period"
-            maxWidth={"12em"}
-            minWidth={"8em"}
-          />
-        </CustomBox>
-        <CustomBox width={"fit-content"}>
-          <CustomSelect
-            label="Period"
-            // value={}
-            onChange={handlePeriodChange}
-            options={periodOptions}
-            placeholder="Select a period"
-            maxWidth={"12em"}
-            minWidth={"8em"}
-          />
-        </CustomBox>
+      <CustomBox width={"fit-content"} flexDirection={"row"} gap={".5em"}>
+        <CustomSelect
+          label="Period"
+          value={period}
+          onChange={handlePeriodChange}
+          options={periodOptions}
+          maxWidth={"12em"}
+          minWidth={"8em"}
+        />
+        <CustomSelect
+          label="Equipment"
+          value={equipment}
+          onChange={handleEquipmentChange}
+          options={equipmentOptions}
+          maxWidth={"12em"}
+          minWidth={"8em"}
+        />
       </CustomBox>
     </CustomBox>
   );

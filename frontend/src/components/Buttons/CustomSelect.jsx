@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 
 function CustomSelect({
@@ -6,10 +6,15 @@ function CustomSelect({
   onChange,
   options,
   maxWidth,
-  label = "Select",
+  minWidth,
+  label,
   id = "custom-select",
   ...rest
 }) {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const shouldShrink = isFocused || value !== "";
+
   return (
     <FormControl fullWidth sx={{ maxWidth: maxWidth, minWidth: maxWidth }}>
       {/* Label legat corect cu labelId */}
@@ -18,17 +23,19 @@ function CustomSelect({
         labelId={`${id}-label`}
         id={id}
         value={value}
-        label={label}
+        label={shouldShrink ? label : undefined}
         onChange={onChange}
         fullWidth
         variant="outlined"
         displayEmpty
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         {...rest}
       >
         {/* Placeholder vizual */}
         {value === "" && (
           <MenuItem value="" disabled>
-            {label}
+            {isFocused ? undefined : label}
           </MenuItem>
         )}
 

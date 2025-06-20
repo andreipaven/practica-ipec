@@ -24,6 +24,9 @@ function MainChart({ period }) {
           },
         },
       },
+      dataLabels: {
+        enabled: false,
+      },
       stroke: {
         curve: "smooth",
       },
@@ -39,19 +42,19 @@ function MainChart({ period }) {
   });
 
   useEffect(() => {
-    fetchGetReports("2025-01-01").then((result) => {
+    fetchGetReports("2025-01-25").then((result) => {
       if (result.success) {
         console.log(result.result);
         const rawData = result.result;
 
         const chartData = rawData
-          .map(({ CREATED, VAL }) => {
-            if (!CREATED || VAL === undefined) return null;
-            const dateObj = new Date(CREATED.replace(" ", "T"));
+          .map(({ created, val }) => {
+            if (!created || val === undefined) return null;
+            const dateObj = new Date(created.replace(" ", "T"));
             if (isNaN(dateObj)) return null;
             return {
               x: dateObj.getTime(),
-              y: VAL,
+              y: val,
             };
           })
           .filter(Boolean);

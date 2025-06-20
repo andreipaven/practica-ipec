@@ -1,13 +1,14 @@
 const ip = import.meta.env.MY_IP || "localhost";
 const port = import.meta.env.PORT || 5000;
 
-export const fetchGetReports = async () => {
+export const fetchGetReports = async (body) => {
   try {
-    const response = await fetch(`http://${ip}:${port}/api/counter/get`, {
+    const response = await fetch(`http://${ip}:${port}/api/report/get-day`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ day: body }),
     });
     const data = await response.json();
 

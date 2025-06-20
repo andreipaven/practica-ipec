@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 
-const counterRoutes = require("./routes/counter");
+const reportRoutes = require("./routes/report");
 
 //PORT
 const app = express();
@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
   res.send("Server is running ");
 });
 // routes
-app.use("/api/counter", counterRoutes);
+app.use("/api/report", reportRoutes);
 
 app.listen(port, "0.0.0.0", () => {
   console.log(`The server running on http://localhost:${port}`);

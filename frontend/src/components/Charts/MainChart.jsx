@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { fetchGetReports } from "../../Services/reportService.js";
 
-function MainChart() {
+function MainChart({ period }) {
   const [series, setSeries] = useState([]);
 
   const [state] = useState({
@@ -39,8 +39,9 @@ function MainChart() {
   });
 
   useEffect(() => {
-    fetchGetReports("2025-01-29").then((result) => {
+    fetchGetReports("2025-01-01").then((result) => {
       if (result.success) {
+        console.log(result.result);
         const rawData = result.result;
 
         const chartData = rawData

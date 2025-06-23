@@ -41,7 +41,7 @@ router.post("/get-day", async (req, res) => {
   const { period, equipment } = req.body;
   try {
     const sql =
-      "SELECT DISTINCT (created) , MAX(val)-MIN(val) AS consumption FROM reports where created like ?  and  SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) = ? GROUP BY(created) ;";
+      "SELECT DISTINCT  (created) AS day , MAX(val)-MIN(val) AS daily_consumption FROM reports where created like ?  and  SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) = ? GROUP BY(created) ORDER by day ;";
     const [results] = await pool.execute(sql, [`${period}%`, `${equipment}`]);
 
     if (!results) {

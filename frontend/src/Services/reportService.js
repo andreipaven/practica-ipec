@@ -23,6 +23,28 @@ export const fetchGetReports = async (period, equipment) => {
     return { success: false, message: "Network error. Please try again." + e };
   }
 };
+export const fetchGetDayReport = async (period, equipment) => {
+  try {
+    const response = await fetch(`http://${ip}:${port}/api/report/get-day`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ period: period, equipment: equipment }),
+    });
+    const data = await response.json();
+
+    return response.ok
+      ? { success: true, message: data.message, result: data.data }
+      : {
+          success: false,
+          message: data.message || "Unknown error",
+          result: data.data,
+        };
+  } catch (e) {
+    return { success: false, message: "Network error. Please try again." + e };
+  }
+};
 export const fetchGetEquipments = async () => {
   try {
     const response = await fetch(

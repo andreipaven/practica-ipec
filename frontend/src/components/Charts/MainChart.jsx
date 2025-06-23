@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import { fetchGetReports } from "../../Services/reportService.js";
+import {
+  fetchGetDayReport,
+  fetchGetReports,
+} from "../../Services/reportService.js";
 import useResponsive from "../Hooks/useResponsive.jsx";
 
 function MainChart({ period, equipment }) {
@@ -46,18 +49,27 @@ function MainChart({ period, equipment }) {
   useEffect(() => {
     console.log(period);
     console.log(equipment);
+
     if (period && equipment) {
-      fetchGetReports(period, equipment).then((result) => {
+      const handleResult = (result) => {
         if (result.success) {
           const rawData = result.result;
 
           const chartData = rawData
             .map(({ day, daily_consumption }) => {
               if (!day || daily_consumption === undefined) return null;
-              const dateObj = new Date(day);
+              let dateObj = null;
+              if (period === "2025-01-31") {
+                dateObj = new Date(day.replace(" ", "T"));
+              } else {
+                dateObj = new Date(day);
+              }
+
               if (isNaN(dateObj)) return null;
+              console.log(dateObj);
+
               return {
-                x: dateObj.getTime(),
+                x: dateObj.getTime() + 2 * 60 * 60 * 1000,
                 y: daily_consumption,
               };
             })
@@ -79,7 +91,13 @@ function MainChart({ period, equipment }) {
             },
           ]);
         }
-      });
+      };
+
+      if (period === "2025-01-31") {
+        fetchGetDayReport(period, equipment).then(handleResult);
+      } else {
+        fetchGetReports(period, equipment).then(handleResult);
+      }
     }
   }, [period, equipment]);
 

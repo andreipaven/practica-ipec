@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CustomBox from "../components/Containers/CustomBox.jsx";
 import { Typography } from "@mui/material";
 import useResponsive from "../components/Hooks/useResponsive.jsx";
@@ -11,11 +11,6 @@ function HomePage() {
   const [period, setPeriod] = useState("");
   const [equipment, setEquipment] = useState("");
 
-  useEffect(() => {
-    console.log(period);
-    console.log(equipment);
-  }, [period, equipment]);
-
   return (
     <CustomBox>
       <CustomBox>
@@ -25,7 +20,7 @@ function HomePage() {
             Diagrama
           </Typography>
           <CustomBox>
-            <MainChart />
+            <MainChart period={period} equipment={equipment} />
           </CustomBox>
         </CustomBox>
       </CustomBox>

@@ -38,4 +38,39 @@ router.post("/get-day", async (req, res) => {
   }
 });
 
+router.post("/get-equipments", async (req, res) => {
+  try {
+    const sql =
+      "SELECT DISTINCT SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) AS equipments FROM reports;";
+
+    const [results] = await pool.execute(sql);
+
+    if (!results) {
+      return res.status(500).json({
+        success: false,
+        message: "Database error - no results returned",
+      });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({
+        success: true,
+        message: "No equipments found",
+        data: [],
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Reports retrieved successfully",
+      data: results,
+    });
+  } catch (error) {
+    console.error("Error fetching equipments:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve equipments",
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;

@@ -4,10 +4,12 @@ import { Typography } from "@mui/material";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import CustomSelect from "../Buttons/CustomSelect.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
+import { fetchGetEquipments } from "../../Services/reportService.js";
 
 function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
   const [period, setPeriod] = useState("");
   const [equipment, setEquipment] = useState("");
+  const [equipmentOptions, setEquipmentsOptions] = useState([]);
 
   const handlePeriodChange = (e) => {
     setPeriod(e.target.value);
@@ -23,11 +25,23 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
     { value: "2025-01-24", label: "Last Week" },
     { value: "2025-01-01", label: "Last Month" },
   ];
-  const equipmentOptions = [
-    { value: "TD7", label: "TD7" },
-    { value: "TD6", label: "TD6" },
-    { value: "TD5", label: "TD5" },
-  ];
+
+  useEffect(() => {
+    fetchGetEquipments().then((result) => {
+      const equipmentList = [];
+      if (result.success) {
+        const rawData = result.result;
+        rawData.forEach((item) => {
+          equipmentList.push(item.equipments);
+        });
+      }
+      setEquipmentsOptions(equipmentList);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(equipmentOptions);
+  }, [equipmentOptions]);
 
   return (
     <CustomBox flexDirection={"row"} justifyContent={"space-between"}>

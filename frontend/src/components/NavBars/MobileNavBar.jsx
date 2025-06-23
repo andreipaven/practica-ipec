@@ -32,16 +32,17 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
       if (result.success) {
         const rawData = result.result;
         rawData.forEach((item) => {
-          equipmentList.push(item.equipments);
+          const rawEquipment = {
+            value: item.equipments,
+            label: item.equipments,
+          };
+          equipmentList.push(rawEquipment);
         });
       }
+
       setEquipmentsOptions(equipmentList);
     });
   }, []);
-
-  useEffect(() => {
-    console.log(equipmentOptions);
-  }, [equipmentOptions]);
 
   return (
     <CustomBox flexDirection={"row"} justifyContent={"space-between"}>

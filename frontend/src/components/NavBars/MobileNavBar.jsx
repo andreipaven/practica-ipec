@@ -60,7 +60,7 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
           maxWidth={"12em"}
           minWidth={"8em"}
           sx={{
-            boxShadow: 5,
+            boxShadow: 4,
           }}
         />
         <CustomSelect
@@ -71,7 +71,7 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
           maxWidth={"12em"}
           minWidth={"8em"}
           sx={{
-            boxShadow: 5,
+            boxShadow: 4,
           }}
         />
       </CustomBox>

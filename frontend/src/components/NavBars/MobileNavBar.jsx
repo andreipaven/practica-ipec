@@ -37,9 +37,19 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
             backgroundColor: themeColors.palette.secondary.main,
             color: themeColors.palette.primary.light,
             fontSize: "3em",
+            boxShadow: 8,
+            borderRadius: "16px",
           }}
         />
-        <Typography fontSize={"2em"}>Energy Tracker</Typography>
+        <Typography
+          fontSize={"2em"}
+          fontWeight={"bold"}
+          sx={{
+            textShadow: "3px 6px 4px rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          Energy Tracker
+        </Typography>
       </CustomBox>
       <CustomBox width={"fit-content"} flexDirection={"row"} gap={".5em"}>
         <CustomSelect
@@ -49,6 +59,9 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
           options={periodOptions}
           maxWidth={"12em"}
           minWidth={"8em"}
+          sx={{
+            boxShadow: 5,
+          }}
         />
         <CustomSelect
           label="Equipment"
@@ -57,6 +70,9 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
           options={equipmentOptions}
           maxWidth={"12em"}
           minWidth={"8em"}
+          sx={{
+            boxShadow: 5,
+          }}
         />
       </CustomBox>
     </CustomBox>

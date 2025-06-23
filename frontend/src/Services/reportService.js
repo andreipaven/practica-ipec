@@ -3,7 +3,7 @@ const port = import.meta.env.PORT || 5000;
 
 export const fetchGetReports = async (period, equipment) => {
   try {
-    const response = await fetch(`http://${ip}:${port}/api/report/get-day`, {
+    const response = await fetch(`http://${ip}:${port}/api/report/get-period`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

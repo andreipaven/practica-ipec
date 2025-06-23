@@ -16,7 +16,7 @@ function MainChart({ period, equipment }) {
           type: "x",
         },
         toolbar: {
-          show: false,
+          show: true,
           tools: {
             zoom: true,
             zoomin: true,

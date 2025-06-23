@@ -45,7 +45,7 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
           fontSize={"2em"}
           fontWeight={"bold"}
           sx={{
-            textShadow: "3px 6px 4px rgba(0, 0, 0, 0.5)",
+            textShadow: "4px 6px 4px rgba(0, 0, 0, 0.5)",
           }}
         >
           Energy Tracker

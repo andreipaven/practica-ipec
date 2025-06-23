@@ -21,8 +21,8 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
   };
 
   const periodOptions = [
-    { value: "2025-01-29", label: "Last Day" },
-    { value: "2025-01-24", label: "Last Week" },
+    { value: "2025-01-31", label: "Last Day" },
+    { value: "2025-01-25", label: "Last Week" },
     { value: "2025-01-01", label: "Last Month" },
   ];
 

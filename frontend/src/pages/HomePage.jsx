@@ -15,14 +15,16 @@ function HomePage() {
 
   return (
     <CustomBox backgroundColor={themeColors.palette.primary.main}>
-      <CustomBox>
-        <Header equipmentX={setEquipment} periodX={setPeriod} />
+      <Header equipmentX={setEquipment} periodX={setPeriod} />
+
+      <CustomBox padding={isMediumScreen ? "1em" : "1em 3em"}>
         <Statistics />
 
         <CustomBox
           maxWidth={"100em"}
-          padding={isMediumScreen ? "1em" : "1em 3em"}
           backgroundColor={themeColors.palette.primary.light}
+          padding={"1em"}
+          borderRadius={"1em"}
         >
           <Typography
             fontSize={"2em"}

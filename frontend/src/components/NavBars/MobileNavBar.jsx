@@ -5,8 +5,10 @@ import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import CustomSelect from "../Buttons/CustomSelect.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
 import { fetchGetEquipments } from "../../Services/reportService.js";
+import useResponsive from "../Hooks/useResponsive.jsx";
 
 function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
+  const { isMediumScreen } = useResponsive();
   const [period, setPeriod] = useState("");
   const [equipment, setEquipment] = useState("");
   const [equipmentOptions, setEquipmentsOptions] = useState([]);
@@ -21,9 +23,10 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
   };
 
   const periodOptions = [
-    { value: "2025-01-31", label: "Last Day" },
-    { value: "2025-01-25", label: "Last Week" },
-    { value: "2025-01-01", label: "Last Month" },
+    { value: "2025-06-16", label: "Last Day" },
+    { value: "2025-06-10", label: "Last Week" },
+    { value: "2025-05-17", label: "Last Month" },
+    { value: "2025-01-01", label: "Last Year" },
   ];
 
   useEffect(() => {
@@ -57,6 +60,7 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
           }}
         />
         <Typography
+          display={isMediumScreen ? "none" : "flex"}
           fontSize={"2em"}
           fontWeight={"bold"}
           sx={{
@@ -73,7 +77,6 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
           onChange={handlePeriodChange}
           options={periodOptions}
           maxWidth={"12em"}
-          minWidth={"8em"}
           sx={{
             boxShadow: 4,
           }}
@@ -84,7 +87,6 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
           onChange={handleEquipmentChange}
           options={equipmentOptions}
           maxWidth={"12em"}
-          minWidth={"8em"}
           sx={{
             boxShadow: 4,
           }}

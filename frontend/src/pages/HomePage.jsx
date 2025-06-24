@@ -7,7 +7,7 @@ import Header from "../components/Header/Header.jsx";
 import themeColors from "../Themes/themeColors.jsx";
 
 function HomePage() {
-  const { isSmallScreen } = useResponsive();
+  const { isMediumScreen } = useResponsive();
 
   const [period, setPeriod] = useState("");
   const [equipment, setEquipment] = useState("");
@@ -18,7 +18,7 @@ function HomePage() {
         <Header equipmentX={setEquipment} periodX={setPeriod} />
         <CustomBox
           maxWidth={"100em"}
-          padding={isSmallScreen ? "1em" : "3em"}
+          padding={isMediumScreen ? "1em" : "1em 3em"}
           backgroundColor={themeColors.palette.primary.light}
         >
           <Typography

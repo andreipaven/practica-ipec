@@ -7,7 +7,7 @@ router.post("/get-period", async (req, res) => {
   const { period, equipment } = req.body;
   try {
     const sql =
-      "SELECT DATE(created) AS day, SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) AS equipment, MAX(val) - MIN(val) AS daily_consumption FROM reports WHERE created >= ? AND SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) = ? GROUP BY day, equipment ORDER BY day DESC;";
+      "SELECT DATE(created) AS day, SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) AS equipment, (MAX(val) - MIN(val))/MAX(de_impartit_la) AS daily_consumption FROM reports WHERE created >= ? AND SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) = ? and val!=0 GROUP BY day, equipment ORDER BY day DESC;";
     const [results] = await pool.execute(sql, [`${period}`, `${equipment}`]);
 
     if (!results) {
@@ -41,7 +41,7 @@ router.post("/get-day", async (req, res) => {
   const { period, equipment } = req.body;
   try {
     const sql =
-      "SELECT DISTINCT  (created) AS day , MAX(val)-MIN(val) AS daily_consumption FROM reports where created like ?  and  SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) = ? GROUP BY(created) ORDER by day ;";
+      "SELECT DISTINCT  (created) AS day , (MAX(val) - MIN(val))/MAX(de_impartit_la) AS daily_consumption FROM reports where created like ?  and  SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) = ? and val!=0 GROUP BY(created) ORDER by day ;";
     const [results] = await pool.execute(sql, [`${period}%`, `${equipment}`]);
 
     if (!results) {

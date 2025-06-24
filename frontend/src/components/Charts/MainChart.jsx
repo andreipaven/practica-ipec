@@ -59,15 +59,13 @@ function MainChart({ period, equipment }) {
             .map(({ day, daily_consumption }) => {
               if (!day || daily_consumption === undefined) return null;
               let dateObj = null;
-              if (period === "2025-01-31") {
+
+              if (period === "2025-06-16") {
                 dateObj = new Date(day.replace(" ", "T"));
               } else {
                 dateObj = new Date(day);
               }
-
               if (isNaN(dateObj)) return null;
-              console.log(dateObj);
-
               return {
                 x: dateObj.getTime() + 2 * 60 * 60 * 1000,
                 y: daily_consumption,
@@ -93,7 +91,7 @@ function MainChart({ period, equipment }) {
         }
       };
 
-      if (period === "2025-01-31") {
+      if (period === "2025-06-16") {
         fetchGetDayReport(period, equipment).then(handleResult);
       } else {
         fetchGetReports(period, equipment).then(handleResult);
@@ -107,7 +105,7 @@ function MainChart({ period, equipment }) {
         options={state.options}
         series={series}
         type="area"
-        height={isSmallScreen ? 200 : 400}
+        height={isSmallScreen ? 300 : 400}
       />
     </div>
   );

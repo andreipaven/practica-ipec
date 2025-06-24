@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import useResponsive from "../Hooks/useResponsive.jsx";
 
 function CustomSelect({
   value,
@@ -8,15 +9,24 @@ function CustomSelect({
   maxWidth,
   minWidth,
   label,
+  fontSize,
   id = "custom-select",
   ...rest
 }) {
+  const { isMediumScreen } = useResponsive();
   const [isFocused, setIsFocused] = useState(false);
 
   const shouldShrink = isFocused || value !== "";
 
   return (
-    <FormControl sx={{ maxWidth: maxWidth, minWidth: minWidth }}>
+    <FormControl
+      sx={{
+        maxWidth: maxWidth,
+        minWidth: minWidth || "8em",
+      }}
+      fullWidth={true}
+      size={isMediumScreen ? "small" : "medium"}
+    >
       {/* Label legat corect cu labelId */}
       <InputLabel id={`${id}-label`}>{label}</InputLabel>
       <Select

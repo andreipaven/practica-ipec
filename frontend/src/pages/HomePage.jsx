@@ -5,6 +5,7 @@ import useResponsive from "../components/Hooks/useResponsive.jsx";
 import MainChart from "../components/Charts/MainChart.jsx";
 import Header from "../components/Header/Header.jsx";
 import themeColors from "../Themes/themeColors.jsx";
+import Statistics from "../components/Statistics/Statistics.jsx";
 
 function HomePage() {
   const { isMediumScreen } = useResponsive();
@@ -16,6 +17,8 @@ function HomePage() {
     <CustomBox backgroundColor={themeColors.palette.primary.main}>
       <CustomBox>
         <Header equipmentX={setEquipment} periodX={setPeriod} />
+        <Statistics />
+
         <CustomBox
           maxWidth={"100em"}
           padding={isMediumScreen ? "1em" : "1em 3em"}

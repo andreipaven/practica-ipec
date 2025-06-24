@@ -12,7 +12,6 @@ const Statistics = () => {
       gridTemplateColumns={"repeat(4,1fr)"}
       gap="1.5em"
       flexDirection={"row"}
-      padding={"1em"}
     >
       <CustomBox
         backgroundColor={themeColors.palette.primary.light}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import {
   fetchGetDayReport,
@@ -6,9 +6,11 @@ import {
 } from "../../Services/reportService.js";
 import useResponsive from "../Hooks/useResponsive.jsx";
 
-function MainChart({ period, equipment }) {
+function MainChart({ period, equipment, startDate, endDate, lastChanged }) {
   const { isSmallScreen } = useResponsive();
   const [series, setSeries] = useState([]);
+
+  const path = useRef(null);
 
   const [state] = useState({
     options: {
@@ -47,10 +49,14 @@ function MainChart({ period, equipment }) {
   });
 
   useEffect(() => {
-    console.log(period);
-    console.log(equipment);
+    if (period && equipment && lastChanged === "default") {
+      path.current = false;
+    } else if (startDate && endDate && lastChanged === "custom") {
+      path.current = true;
+    }
 
-    if (period && equipment) {
+    if (path.current === false) {
+      console.log("aici");
       const handleResult = (result) => {
         if (result.success) {
           const rawData = result.result;
@@ -84,7 +90,7 @@ function MainChart({ period, equipment }) {
 
           setSeries([
             {
-              name: "Consum energie",
+              name: "Energy consumption",
               data: uniqueData,
             },
           ]);
@@ -96,8 +102,10 @@ function MainChart({ period, equipment }) {
       } else {
         fetchGetReports(period, equipment).then(handleResult);
       }
+    } else if (path.current === true) {
+      console.log("cale pt perioada custom");
     }
-  }, [period, equipment]);
+  }, [period, equipment, endDate, startDate, lastChanged]);
 
   return (
     <div style={{ width: "100%", margin: "auto", overflow: "hidden" }}>

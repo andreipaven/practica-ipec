@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-function CustomDatePicker({ backgroundColor, width, color, label }) {
-  const [value, setValue] = useState(null);
-
+function CustomDatePicker({
+  backgroundColor,
+  width,
+  color,
+  label,
+  value,
+  onChange,
+}) {
   return (
     <DatePicker
       label={label}
       value={value}
-      onChange={(newValue) => setValue(newValue)}
+      onChange={onChange}
       slotProps={{
         textField: {
           variant: "standard",

@@ -1,74 +1,69 @@
-// components/Statistics.jsx
 import React from "react";
-
 import { Typography } from "@mui/material";
 import themeColors from "../../Themes/themeColors.jsx";
 import CustomBox from "../Containers/CustomBox.jsx";
+import useResponsive from "../Hooks/useResponsive.jsx";
 
 const Statistics = ({ totalConsumption }) => {
+  const { isMediumScreen } = useResponsive();
+
+  const stats = [
+    {
+      title: "Total Consumption",
+      value: `${totalConsumption.toFixed(0)} kWh`,
+      valueColor: themeColors.palette.secondary.dark,
+    },
+    {
+      title: "Echipamente Active",
+      value: "14",
+      valueColor: "#2b6cb0",
+    },
+    {
+      title: "Cost Estimat",
+      value: "€123.45",
+      valueColor: "#2b6cb0",
+    },
+    {
+      title: "Alt Cost",
+      value: "€88.00",
+      valueColor: "#2b6cb0",
+    },
+  ];
+
   return (
     <CustomBox
+      gridTemplateColumns={isMediumScreen ? "repeat(2,1fr)" : "repeat(4,1fr)"}
       display="grid"
-      gridTemplateColumns={"repeat(4,1fr)"}
       gap="1.5em"
-      flexDirection={"row"}
-      maxWidth={"100em"}
+      flexDirection="row"
+      maxWidth="100em"
     >
-      <CustomBox
-        backgroundColor={themeColors.palette.primary.light}
-        padding="1.5em"
-        borderRadius="1em"
-        boxShadow="0 4px 10px rgba(0,0,0,0.1)"
-      >
-        <Typography>Total Consumption</Typography>
-        <Typography
-          fontWeight="bold"
-          color={themeColors.palette.secondary.dark}
+      {stats.map((stat, index) => (
+        <CustomBox
+          key={index}
+          backgroundColor={themeColors.palette.primary.light}
+          padding="1.5em"
+          borderRadius="1em"
+          boxShadow="0 4px 10px rgba(0,0,0,0.1)"
         >
-          {totalConsumption.toFixed(0)} kWh
-        </Typography>
-      </CustomBox>
-
-      <CustomBox
-        backgroundColor={themeColors.palette.primary.light}
-        padding="1.5em"
-        borderRadius="1em"
-        boxShadow="0 4px 10px rgba(0,0,0,0.1)"
-      >
-        <Typography fontSize="1.1em" fontWeight="500" color="#444">
-          Echipamente Active
-        </Typography>
-        <Typography fontSize="1.8em" fontWeight="bold" color="#2b6cb0">
-          14
-        </Typography>
-      </CustomBox>
-
-      <CustomBox
-        backgroundColor={themeColors.palette.primary.light}
-        padding="1.5em"
-        borderRadius="1em"
-        boxShadow="0 4px 10px rgba(0,0,0,0.1)"
-      >
-        <Typography fontSize="1.1em" fontWeight="500" color="#444">
-          Cost Estimat
-        </Typography>
-        <Typography fontSize="1.8em" fontWeight="bold" color="#2b6cb0">
-          €123.45
-        </Typography>
-      </CustomBox>
-      <CustomBox
-        backgroundColor={themeColors.palette.primary.light}
-        padding="1.5em"
-        borderRadius="1em"
-        boxShadow="0 4px 10px rgba(0,0,0,0.1)"
-      >
-        <Typography fontSize="1.1em" fontWeight="500" color="#444">
-          Cost Estimat
-        </Typography>
-        <Typography fontSize="1.8em" fontWeight="bold" color="#2b6cb0">
-          €123.45
-        </Typography>
-      </CustomBox>
+          <Typography
+            fontSize="1.1em"
+            fontWeight="500"
+            color="#444"
+            textAlign="center"
+          >
+            {stat.title}
+          </Typography>
+          <Typography
+            fontSize="1.8em"
+            fontWeight="bold"
+            color={stat.valueColor}
+            textAlign="center"
+          >
+            {stat.value}
+          </Typography>
+        </CustomBox>
+      ))}
     </CustomBox>
   );
 };

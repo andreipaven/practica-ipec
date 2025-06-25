@@ -13,8 +13,8 @@ import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 function HomePage() {
   const { isMediumScreen, isLargeScreen } = useResponsive();
 
-  const [period, setPeriod] = useState("");
-  const [equipment, setEquipment] = useState("");
+  const [period, setPeriod] = useState("2025-06-10");
+  const [equipment, setEquipment] = useState("TD7");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [lastChanged, setLastChanged] = useState("");

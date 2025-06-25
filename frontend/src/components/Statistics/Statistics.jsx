@@ -14,8 +14,8 @@ const Statistics = ({ totalConsumption }) => {
       valueColor: themeColors.palette.secondary.dark,
     },
     {
-      title: "Echipamente Active",
-      value: "14",
+      title: "Active Equipment",
+      value: "128",
       valueColor: "#2b6cb0",
     },
     {

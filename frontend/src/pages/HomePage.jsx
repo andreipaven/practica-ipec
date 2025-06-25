@@ -18,6 +18,7 @@ function HomePage() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [lastChanged, setLastChanged] = useState("");
+  const [totalConsumption, setTotalConsumption] = useState("");
 
   const handleStartDate = (e) => {
     const formatted = e?.format("YYYY-MM-DD");
@@ -39,7 +40,7 @@ function HomePage() {
       <Header equipmentX={setEquipment} periodX={setPeriod} />
 
       <CustomBox padding={isMediumScreen ? "1em" : "1em 3em"} gap={"1em"}>
-        <Statistics />
+        <Statistics totalConsumption={totalConsumption} />
 
         <CustomBox
           maxWidth={"100em"}
@@ -84,6 +85,7 @@ function HomePage() {
               startDate={startDate}
               endDate={endDate}
               lastChanged={lastChanged}
+              setTotalConsumption={setTotalConsumption}
             />
           </CustomBox>
         </CustomBox>

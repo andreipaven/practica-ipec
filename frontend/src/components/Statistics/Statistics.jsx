@@ -5,13 +5,14 @@ import { Typography } from "@mui/material";
 import themeColors from "../../Themes/themeColors.jsx";
 import CustomBox from "../Containers/CustomBox.jsx";
 
-const Statistics = () => {
+const Statistics = ({ totalConsumption }) => {
   return (
     <CustomBox
       display="grid"
       gridTemplateColumns={"repeat(4,1fr)"}
       gap="1.5em"
       flexDirection={"row"}
+      maxWidth={"100em"}
     >
       <CustomBox
         backgroundColor={themeColors.palette.primary.light}
@@ -19,11 +20,12 @@ const Statistics = () => {
         borderRadius="1em"
         boxShadow="0 4px 10px rgba(0,0,0,0.1)"
       >
-        <Typography fontSize="1.1em" fontWeight="500" color="#444">
-          Total Energie
-        </Typography>
-        <Typography fontSize="1.8em" fontWeight="bold" color="#2b6cb0">
-          560 kWh
+        <Typography>Total Consumption</Typography>
+        <Typography
+          fontWeight="bold"
+          color={themeColors.palette.secondary.dark}
+        >
+          {totalConsumption.toFixed(0)} kWh
         </Typography>
       </CustomBox>
 

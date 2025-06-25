@@ -7,7 +7,14 @@ import {
 } from "../../Services/reportService.js";
 import useResponsive from "../Hooks/useResponsive.jsx";
 
-function MainChart({ period, equipment, startDate, endDate, lastChanged }) {
+function MainChart({
+  period,
+  equipment,
+  startDate,
+  endDate,
+  lastChanged,
+  setTotalConsumption,
+}) {
   const { isSmallScreen } = useResponsive();
   const [series, setSeries] = useState([]);
 
@@ -80,6 +87,8 @@ function MainChart({ period, equipment, startDate, endDate, lastChanged }) {
           uniqueData.push(point);
         }
       }
+      const total = uniqueData.reduce((acc, point) => acc + point.y, 0);
+      setTotalConsumption(total);
 
       setSeries([
         {

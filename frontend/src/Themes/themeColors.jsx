@@ -11,6 +11,7 @@ const themeColors = createTheme({
     secondary: {
       main: "#00c4ff",
       contrastText: "#000",
+      dark: "#0261aa",
     },
     success: {
       main: "#fff",

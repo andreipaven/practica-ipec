@@ -44,7 +44,7 @@ const Statistics = ({ totalConsumption }) => {
           backgroundColor={themeColors.palette.primary.light}
           padding="1.5em"
           borderRadius="1em"
-          boxShadow="0 4px 10px rgba(0,0,0,0.1)"
+          boxShadow="0 4px 10px rgba(3,0,0,0.4)"
         >
           <Typography
             fontSize="1.1em"

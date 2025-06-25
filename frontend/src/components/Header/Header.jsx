@@ -4,7 +4,7 @@ import MobileNavBar from "../NavBars/MobileNavBar.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
 import useResponsive from "../Hooks/useResponsive.jsx";
 
-function Header({ periodX, equipmentX }) {
+function Header({ periodX, equipmentX, optionsEquipments }) {
   const { isMediumScreen } = useResponsive();
   return (
     <CustomBox width={"100%"}>
@@ -13,7 +13,11 @@ function Header({ periodX, equipmentX }) {
         padding={isMediumScreen ? "1em" : "1em 3em"}
         backgroundColor={themeColors.palette.primary.light}
       >
-        <MobileNavBar onChangePeriod={periodX} onChangeEquipment={equipmentX} />
+        <MobileNavBar
+          optionsEquipments={optionsEquipments}
+          onChangePeriod={periodX}
+          onChangeEquipment={equipmentX}
+        />
       </CustomBox>
     </CustomBox>
   );

@@ -7,7 +7,11 @@ import themeColors from "../../Themes/themeColors.jsx";
 import { fetchGetEquipments } from "../../Services/reportService.js";
 import useResponsive from "../Hooks/useResponsive.jsx";
 
-function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
+function MobileNavBar({
+  onChangePeriod,
+  onChangeEquipment,
+  optionsEquipments,
+}) {
   const { isMediumScreen } = useResponsive();
   const [period, setPeriod] = useState("");
   const [equipment, setEquipment] = useState("");
@@ -44,6 +48,7 @@ function MobileNavBar({ onChangePeriod, onChangeEquipment }) {
       }
 
       setEquipmentsOptions(equipmentList);
+      optionsEquipments(equipmentList);
     });
   }, []);
 

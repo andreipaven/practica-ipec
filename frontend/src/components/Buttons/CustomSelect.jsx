@@ -10,6 +10,7 @@ function CustomSelect({
   minWidth,
   label,
   fontSize,
+  multiple,
   id = "custom-select",
   ...rest
 }) {
@@ -30,6 +31,7 @@ function CustomSelect({
       {/* Label legat corect cu labelId */}
       <InputLabel id={`${id}-label`}>{label}</InputLabel>
       <Select
+        multiple={multiple || false}
         labelId={`${id}-label`}
         value={value}
         label={shouldShrink ? label : undefined}
@@ -48,7 +50,6 @@ function CustomSelect({
           </MenuItem>
         )}
 
-        {/* Opțiuni dinamice */}
         {options.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}

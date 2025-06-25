@@ -109,17 +109,18 @@ router.post("/get-equipments", async (req, res) => {
 
 router.post("/get-custom-period", async (req, res) => {
   const { start, end, equipment } = req.body;
-  console.log(start, end, equipment);
+  const equipmentArray = Array.isArray(equipment) ? equipment : [];
+  const placeholders = equipmentArray.map(() => "?").join(",");
+
   const newEndDate = new Date(end);
   newEndDate.setDate(newEndDate.getDate() + 1);
   const sqlEnd = newEndDate.toISOString().split("T")[0];
   try {
-    const sql =
-      "SELECT DATE(created) AS day, SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) AS equipment, (MAX(val) - MIN(val))/MAX(de_impartit_la) AS daily_consumption FROM reports WHERE created >= ? and created <=? AND SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) = ? and val!=0 GROUP BY day, equipment ORDER BY day DESC;";
+    const sql = `SELECT DATE(created) AS day, SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) AS equipment, (MAX(val) - MIN(val))/MAX(de_impartit_la) AS daily_consumption FROM reports WHERE created >= ? and created <=? AND SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) in (${placeholders}) and val!=0 GROUP BY day, equipment ORDER BY day DESC;`;
     const [results] = await pool.execute(sql, [
       `${start} 23:59:00`,
       `${sqlEnd} 23:59:00`,
-      `${equipment}`,
+      ...equipmentArray,
     ]);
 
     if (!results) {

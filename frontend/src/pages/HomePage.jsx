@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import CustomBox from "../components/Containers/CustomBox.jsx";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import useResponsive from "../components/Hooks/useResponsive.jsx";
 import MainChart from "../components/Charts/MainChart.jsx";
 import Header from "../components/Header/Header.jsx";
 import themeColors from "../Themes/themeColors.jsx";
 import Statistics from "../components/Statistics/Statistics.jsx";
-
 import CustomDatePicker from "../components/Inputs/CustomDatePicker.jsx";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
+import CustomSelect from "../components/Buttons/CustomSelect.jsx";
 
 function HomePage() {
   const { isMediumScreen, isLargeScreen } = useResponsive();
@@ -19,6 +19,8 @@ function HomePage() {
   const [endDate, setEndDate] = useState("");
   const [lastChanged, setLastChanged] = useState("");
   const [totalConsumption, setTotalConsumption] = useState(0);
+  const [equipmentOptions, setEquipmentOptions] = useState([]);
+  const [customEquipments, setCustomEquipments] = useState([]);
 
   const handleStartDate = (e) => {
     const formatted = e?.format("YYYY-MM-DD");
@@ -35,9 +37,17 @@ function HomePage() {
     setLastChanged("default");
   }, [period, equipment]);
 
+  useEffect(() => {
+    console.log(customEquipments);
+  }, [customEquipments]);
+
   return (
     <CustomBox backgroundColor={themeColors.palette.primary.main}>
-      <Header equipmentX={setEquipment} periodX={setPeriod} />
+      <Header
+        equipmentX={setEquipment}
+        periodX={setPeriod}
+        optionsEquipments={setEquipmentOptions}
+      />
 
       <CustomBox padding={isMediumScreen ? "1em" : "1em 3em"} gap={"1em"}>
         <Statistics totalConsumption={totalConsumption} />
@@ -70,7 +80,20 @@ function HomePage() {
               </Typography>
             )}
 
-            <CustomBox flexDirection={"row"} gap={"1em"} maxWidth={"20em"}>
+            <CustomBox
+              flexDirection={isMediumScreen ? "column" : "row"}
+              gap={"1em"}
+              maxWidth={"auto"}
+            >
+              <CustomSelect
+                multiple={true}
+                options={equipmentOptions}
+                maxWidth={"6em"}
+                // size={"small"}
+                label={"Equipments"}
+                value={customEquipments}
+                onChange={(e) => setCustomEquipments(e.target.value)}
+              />
               <CustomDatePicker
                 label={"Start date"}
                 onChange={handleStartDate}
@@ -82,6 +105,7 @@ function HomePage() {
             <MainChart
               period={period}
               equipment={equipment}
+              customEquipments={customEquipments}
               startDate={startDate}
               endDate={endDate}
               lastChanged={lastChanged}

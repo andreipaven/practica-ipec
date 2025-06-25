@@ -18,7 +18,7 @@ function HomePage() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [lastChanged, setLastChanged] = useState("");
-  const [totalConsumption, setTotalConsumption] = useState("");
+  const [totalConsumption, setTotalConsumption] = useState(0);
 
   const handleStartDate = (e) => {
     const formatted = e?.format("YYYY-MM-DD");

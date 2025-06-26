@@ -37,10 +37,6 @@ function HomePage() {
     setLastChanged("default");
   }, [period, equipment]);
 
-  useEffect(() => {
-    console.log(customEquipments);
-  }, [customEquipments]);
-
   return (
     <CustomBox backgroundColor={themeColors.palette.primary.main}>
       <Header
@@ -59,31 +55,21 @@ function HomePage() {
           borderRadius={"1em"}
         >
           <CustomBox flexDirection={"row"} justifyContent={"space-between"}>
-            {isLargeScreen ? (
-              <ElectricBoltIcon
-                sx={{
-                  backgroundColor: themeColors.palette.secondary.main,
-                  color: themeColors.palette.primary.light,
-                  fontSize: "3em",
-                  boxShadow: 8,
-                  borderRadius: "16px",
-                }}
-              />
-            ) : (
-              <Typography
-                fontSize={"2em"}
-                fontWeight={"bold"}
-                alignItems={"start"}
-                width={"100%"}
-              >
-                Energy Consumption Trends
-              </Typography>
-            )}
+            <Typography
+              display={isMediumScreen ? "none" : "flex"}
+              fontSize={"1.5em"}
+              fontWeight={"bold"}
+              alignItems={"start"}
+              width={"100%"}
+            >
+              Energy Consumption Trends
+            </Typography>
 
             <CustomBox
               flexDirection={isMediumScreen ? "column" : "row"}
               gap={"1em"}
               maxWidth={"auto"}
+              alignItems={"start"}
             >
               <CustomSelect
                 multiple={true}

@@ -12,7 +12,7 @@ function MobileNavBar({
   onChangeEquipment,
   optionsEquipments,
 }) {
-  const { isMediumScreen } = useResponsive();
+  const { isMediumScreen, isSmallScreen } = useResponsive();
   const [period, setPeriod] = useState("");
   const [equipment, setEquipment] = useState("");
   const [equipmentOptions, setEquipmentsOptions] = useState([]);
@@ -65,7 +65,7 @@ function MobileNavBar({
           }}
         />
         <Typography
-          display={isMediumScreen ? "none" : "flex"}
+          display={isSmallScreen ? "none" : "flex"}
           fontSize={"2em"}
           fontWeight={"bold"}
           sx={{

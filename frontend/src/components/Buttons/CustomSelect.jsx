@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 import useResponsive from "../Hooks/useResponsive.jsx";
 
@@ -17,7 +17,10 @@ function CustomSelect({
   const { isMediumScreen } = useResponsive();
   const [isFocused, setIsFocused] = useState(false);
 
-  const shouldShrink = isFocused || value !== "";
+  const isEmptyValue = multiple
+    ? Array.isArray(value) && value.length === 0
+    : value === "";
+  const shouldShrink = isFocused || !isEmptyValue;
 
   return (
     <FormControl
@@ -43,7 +46,6 @@ function CustomSelect({
         onBlur={() => setIsFocused(false)}
         {...rest}
       >
-        {/* Placeholder vizual */}
         {value === undefined && (
           <MenuItem value="" disabled>
             {isFocused ? undefined : label}

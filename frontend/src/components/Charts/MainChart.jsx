@@ -58,7 +58,6 @@ function MainChart({
   });
 
   const handleMultiEquipmentResult = (result) => {
-    console.log(result);
     if (!result.success || !result.result) return;
 
     const rawData = result.result;
@@ -71,7 +70,7 @@ function MainChart({
       const dateObj = new Date(day);
       if (isNaN(dateObj)) return;
 
-      const timestamp = dateObj.getTime() + 2 * 60 * 60 * 1000; // +2h pentru fus orar
+      const timestamp = dateObj.getTime() + 2 * 60 * 60 * 1000; // +2h
 
       if (!equipmentMap[equipment]) {
         equipmentMap[equipment] = [];
@@ -83,14 +82,12 @@ function MainChart({
       });
     });
 
-    // opțional: calculează totalul doar pentru echipamentele vizibile
     let total = 0;
     Object.values(equipmentMap).forEach((points) => {
       total += points.reduce((acc, p) => acc + p.y, 0);
     });
     setTotalConsumption(total);
 
-    // construim `series`
     const newSeries = Object.entries(equipmentMap).map(([equipment, data]) => ({
       name: equipment,
       data,
@@ -100,7 +97,6 @@ function MainChart({
   };
 
   const handleResult = (result) => {
-    console.log(result.result);
     if (result.success) {
       const rawData = result.result;
 
@@ -144,15 +140,12 @@ function MainChart({
 
   useEffect(() => {
     console.log(customEquipments);
-  }, [customEquipments]);
-
-  useEffect(() => {
     if (period && equipment && lastChanged === "default") {
       path.current = false;
     } else if (
       startDate &&
       endDate &&
-      customEquipments &&
+      customEquipments.length > 0 &&
       lastChanged === "custom"
     ) {
       path.current = true;

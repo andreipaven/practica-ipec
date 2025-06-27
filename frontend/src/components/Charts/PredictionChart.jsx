@@ -92,8 +92,7 @@ function PredictionChart({ predictPeriod, predictEquipment }) {
         },
       ]);
     } else {
-      console.log("aici");
-      notify("Acest echipament nu a functionat in ultima perioada!");
+      notify('notify("This equipment has not been operating recently!");');
     }
   };
   const handlePredictResult = (result) => {

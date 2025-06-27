@@ -7,6 +7,8 @@ import {
 } from "../../Services/reportService.js";
 import useResponsive from "../Hooks/useResponsive.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
+import { ToastContainer } from "react-toastify";
+import { notify } from "../Notifications/notify.js";
 
 function MainChart({
   period,
@@ -136,6 +138,8 @@ function MainChart({
           data: uniqueData,
         },
       ]);
+    } else {
+      notify("This equipment has not been operating recently!");
     }
   };
 
@@ -179,7 +183,8 @@ function MainChart({
         series={series}
         type="area"
         height={isSmallScreen ? 300 : 400}
-      />
+      />{" "}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }

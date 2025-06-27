@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CustomBox from "../Containers/CustomBox.jsx";
 import MobileNavBar from "../NavBars/MobileNavBar.jsx";
 import themeColors from "../../Themes/themeColors.jsx";

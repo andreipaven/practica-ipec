@@ -144,7 +144,6 @@ function MainChart({
   };
 
   useEffect(() => {
-    console.log(customEquipments);
     if (period && equipment && lastChanged === "default") {
       path.current = false;
     } else if (

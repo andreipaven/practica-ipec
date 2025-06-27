@@ -99,3 +99,54 @@ export const fetchGetReportsCustomPeriod = async (start, end, equipment) => {
     return { success: false, message: "Network error. Please try again." + e };
   }
 };
+
+export const fetchGetPredictReports = async (equipment) => {
+  try {
+    const response = await fetch(
+      `http://${ip}:${port}/api/report/get-predict-period`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ equipment: equipment }),
+      },
+    );
+    const data = await response.json();
+
+    return response.ok
+      ? { success: true, message: data.message, result: data.data }
+      : {
+          success: false,
+          message: data.message || "Unknown error",
+          result: data.data,
+        };
+  } catch (e) {
+    return { success: false, message: "Network error. Please try again." + e };
+  }
+};
+export const fetchGetPredictReportsWeek = async (equipment) => {
+  try {
+    const response = await fetch(
+      `http://${ip}:${port}/api/report/get-predict-period-week`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ equipment: equipment }),
+      },
+    );
+    const data = await response.json();
+
+    return response.ok
+      ? { success: true, message: data.message, result: data.data }
+      : {
+          success: false,
+          message: data.message || "Unknown error",
+          result: data.data,
+        };
+  } catch (e) {
+    return { success: false, message: "Network error. Please try again." + e };
+  }
+};

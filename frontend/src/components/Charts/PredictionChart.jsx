@@ -1,23 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import {
-  fetchGetDayReport,
   fetchGetPredictReports,
   fetchGetPredictReportsWeek,
   fetchGetReports,
-  fetchGetReportsCustomPeriod,
 } from "../../Services/reportService.js";
 import useResponsive from "../Hooks/useResponsive.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
+import { ToastContainer } from "react-toastify";
+import { notify } from "../Notifications/notify.js";
 
-function PredictionChart({
-  period,
-
-  setTotalConsumption,
-
-  predictPeriod,
-  predictEquipment,
-}) {
+function PredictionChart({ predictPeriod, predictEquipment }) {
   const { isSmallScreen } = useResponsive();
   const [series, setSeries] = useState([]);
   const [historicalSeries, setHistoricalSeries] = useState([]);
@@ -62,7 +55,6 @@ function PredictionChart({
   });
 
   const handleResult = (result) => {
-    console.log(result.result);
     if (result.success) {
       const rawData = result.result;
 
@@ -99,6 +91,9 @@ function PredictionChart({
           data: uniqueData,
         },
       ]);
+    } else {
+      console.log("aici");
+      notify("Acest echipament nu a functionat in ultima perioada!");
     }
   };
   const handlePredictResult = (result) => {
@@ -176,6 +171,7 @@ function PredictionChart({
         type="area"
         height={isSmallScreen ? 300 : 400}
       />
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }

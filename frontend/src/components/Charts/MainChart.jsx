@@ -176,7 +176,6 @@ function MainChart({
         margin: "auto",
         overflow: "hidden",
         backgroundColor: themeColors.palette.primary.light,
-        overflowX: "hidden",
       }}
     >
       <ReactApexChart

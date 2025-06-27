@@ -6,6 +6,8 @@ import CustomSelect from "../Buttons/CustomSelect.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
 import { fetchGetEquipments } from "../../Services/reportService.js";
 import useResponsive from "../Hooks/useResponsive.jsx";
+import { useNavigate } from "react-router-dom";
+import CustomButton from "../Buttons/CustomButton.jsx";
 
 function MobileNavBar({
   onChangePeriod,
@@ -16,6 +18,8 @@ function MobileNavBar({
   const [period, setPeriod] = useState("");
   const [equipment, setEquipment] = useState("");
   const [equipmentOptions, setEquipmentsOptions] = useState([]);
+
+  const navigate = useNavigate();
 
   const handlePeriodChange = (e) => {
     setPeriod(e.target.value);
@@ -28,7 +32,7 @@ function MobileNavBar({
 
   const periodOptions = [
     { value: "2025-06-16", label: "Last Day" },
-    { value: "2025-06-10", label: "Last Week" },
+    { value: "2025-06-11", label: "Last Week" },
     { value: "2025-05-17", label: "Last Month" },
     { value: "2025-01-01", label: "Last Year" },
   ];
@@ -75,6 +79,7 @@ function MobileNavBar({
           Energy Tracker
         </Typography>
       </CustomBox>
+
       <CustomBox width={"fit-content"} flexDirection={"row"} gap={".5em"}>
         <CustomSelect
           label="Period"

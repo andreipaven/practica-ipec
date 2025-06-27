@@ -2,23 +2,26 @@ import { useEffect, useRef, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import {
   fetchGetDayReport,
+  fetchGetPredictReports,
+  fetchGetPredictReportsWeek,
   fetchGetReports,
   fetchGetReportsCustomPeriod,
 } from "../../Services/reportService.js";
 import useResponsive from "../Hooks/useResponsive.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
 
-function MainChart({
+function PredictionChart({
   period,
-  equipment,
-  startDate,
-  endDate,
-  lastChanged,
+
   setTotalConsumption,
-  customEquipments,
+
+  predictPeriod,
+  predictEquipment,
 }) {
   const { isSmallScreen } = useResponsive();
   const [series, setSeries] = useState([]);
+  const [historicalSeries, setHistoricalSeries] = useState([]);
+  const [predictedSeries, setPredictedSeries] = useState([]);
 
   const path = useRef(null);
 
@@ -58,46 +61,8 @@ function MainChart({
     },
   });
 
-  const handleMultiEquipmentResult = (result) => {
-    if (!result.success || !result.result) return;
-
-    const rawData = result.result;
-
-    const equipmentMap = {};
-
-    rawData.forEach(({ day, equipment, daily_consumption }) => {
-      if (!day || daily_consumption === undefined || !equipment) return;
-
-      const dateObj = new Date(day);
-      if (isNaN(dateObj)) return;
-
-      const timestamp = dateObj.getTime() + 2 * 60 * 60 * 1000; // +2h
-
-      if (!equipmentMap[equipment]) {
-        equipmentMap[equipment] = [];
-      }
-
-      equipmentMap[equipment].push({
-        x: timestamp,
-        y: daily_consumption,
-      });
-    });
-
-    let total = 0;
-    Object.values(equipmentMap).forEach((points) => {
-      total += points.reduce((acc, p) => acc + p.y, 0);
-    });
-    setTotalConsumption(total);
-
-    const newSeries = Object.entries(equipmentMap).map(([equipment, data]) => ({
-      name: equipment,
-      data,
-    }));
-
-    setSeries(newSeries);
-  };
-
   const handleResult = (result) => {
+    console.log(result.result);
     if (result.success) {
       const rawData = result.result;
 
@@ -105,7 +70,7 @@ function MainChart({
         .map(({ day, daily_consumption }) => {
           if (!day || daily_consumption === undefined) return null;
           let dateObj = null;
-          if (period === "2025-06-16") {
+          if (predictPeriod === "2025-06-16") {
             dateObj = new Date(day.replace(" ", "T"));
           } else {
             dateObj = new Date(day);
@@ -127,12 +92,53 @@ function MainChart({
           uniqueData.push(point);
         }
       }
-      const total = uniqueData.reduce((acc, point) => acc + point.y, 0);
-      setTotalConsumption(total);
 
-      setSeries([
+      setHistoricalSeries([
         {
-          name: "Energy consumption",
+          name: "Historical Consumption",
+          data: uniqueData,
+        },
+      ]);
+    }
+  };
+  const handlePredictResult = (result) => {
+    console.log(result.result);
+    if (result.success) {
+      const rawData = result.result;
+      let baseDate = null;
+      if (predictPeriod === "2025-05-17") {
+        baseDate = new Date("2025-05-18T00:00:00");
+      } else if (predictPeriod === "2025-06-10") {
+        baseDate = new Date("2025-06-02T00:00:00");
+      }
+
+      const chartData = rawData
+        .map(({ day_of_month, average_consumption }) => {
+          if (!day_of_month || average_consumption === undefined) return null;
+
+          const dateObj = new Date(baseDate);
+          dateObj.setDate(baseDate.getDate() + (day_of_month - 1));
+
+          if (isNaN(dateObj)) return null;
+          return {
+            x: dateObj.getTime() + 2 * 60 * 60 * 1000,
+            y: average_consumption,
+          };
+        })
+        .filter(Boolean);
+
+      const uniqueData = [];
+      const seenTimestamps = new Set();
+      for (const point of chartData) {
+        if (!seenTimestamps.has(point.x)) {
+          seenTimestamps.add(point.x);
+          uniqueData.push(point);
+        }
+      }
+
+      setPredictedSeries([
+        {
+          name: "Predict Consumption",
           data: uniqueData,
         },
       ]);
@@ -140,30 +146,20 @@ function MainChart({
   };
 
   useEffect(() => {
-    console.log(customEquipments);
-    if (period && equipment && lastChanged === "default") {
-      path.current = false;
-    } else if (
-      startDate &&
-      endDate &&
-      customEquipments.length > 0 &&
-      lastChanged === "custom"
-    ) {
-      path.current = true;
-    }
-
-    if (path.current === false) {
-      if (period === "2025-06-16") {
-        fetchGetDayReport(period, equipment).then(handleResult);
-      } else {
-        fetchGetReports(period, equipment).then(handleResult);
+    if (predictEquipment && predictPeriod) {
+      if (predictPeriod === "2025-06-10") {
+        fetchGetReports(predictPeriod, predictEquipment).then(handleResult);
+        fetchGetPredictReportsWeek(predictEquipment).then(handlePredictResult);
+      } else if (predictPeriod === "2025-05-17") {
+        fetchGetReports(predictPeriod, predictEquipment).then(handleResult);
+        fetchGetPredictReports(predictEquipment).then(handlePredictResult);
       }
-    } else if (path.current === true) {
-      fetchGetReportsCustomPeriod(startDate, endDate, customEquipments).then(
-        handleMultiEquipmentResult,
-      );
     }
-  }, [period, equipment, endDate, startDate, lastChanged, customEquipments]);
+  }, [predictPeriod, predictEquipment]);
+
+  useEffect(() => {
+    setSeries([...historicalSeries, ...predictedSeries]);
+  }, [historicalSeries, predictedSeries]);
 
   return (
     <div
@@ -184,4 +180,4 @@ function MainChart({
   );
 }
 
-export default MainChart;
+export default PredictionChart;

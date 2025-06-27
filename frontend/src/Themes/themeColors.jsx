@@ -14,9 +14,9 @@ const themeColors = createTheme({
       dark: "#0261aa",
     },
     success: {
-      main: "#fff",
+      main: "#bcbcbc",
       light: "#00cd03",
-      dark: "#02b105",
+      dark: "#019e03",
     },
     error: {
       main: "#ff0000",

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import {
   fetchGetPredictReports,
@@ -15,8 +15,6 @@ function PredictionChart({ predictPeriod, predictEquipment }) {
   const [series, setSeries] = useState([]);
   const [historicalSeries, setHistoricalSeries] = useState([]);
   const [predictedSeries, setPredictedSeries] = useState([]);
-
-  const path = useRef(null);
 
   const [state] = useState({
     options: {
@@ -61,7 +59,7 @@ function PredictionChart({ predictPeriod, predictEquipment }) {
       const chartData = rawData
         .map(({ day, daily_consumption }) => {
           if (!day || daily_consumption === undefined) return null;
-          let dateObj = null;
+          let dateObj;
           if (predictPeriod === "2025-06-16") {
             dateObj = new Date(day.replace(" ", "T"));
           } else {

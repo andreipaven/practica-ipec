@@ -6,20 +6,16 @@ import CustomSelect from "../Buttons/CustomSelect.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
 import { fetchGetEquipments } from "../../Services/reportService.js";
 import useResponsive from "../Hooks/useResponsive.jsx";
-import { useNavigate } from "react-router-dom";
-import CustomButton from "../Buttons/CustomButton.jsx";
 
 function MobileNavBar({
   onChangePeriod,
   onChangeEquipment,
   optionsEquipments,
 }) {
-  const { isMediumScreen, isSmallScreen } = useResponsive();
+  const { isSmallScreen } = useResponsive();
   const [period, setPeriod] = useState("");
   const [equipment, setEquipment] = useState("");
   const [equipmentOptions, setEquipmentsOptions] = useState([]);
-
-  const navigate = useNavigate();
 
   const handlePeriodChange = (e) => {
     setPeriod(e.target.value);

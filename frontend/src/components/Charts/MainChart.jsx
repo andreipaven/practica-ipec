@@ -106,7 +106,7 @@ function MainChart({
       const chartData = rawData
         .map(({ day, daily_consumption }) => {
           if (!day || daily_consumption === undefined) return null;
-          let dateObj = null;
+          let dateObj;
           if (period === "2025-06-16") {
             dateObj = new Date(day.replace(" ", "T"));
           } else {

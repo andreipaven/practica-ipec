@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CustomBox from "../components/Containers/CustomBox.jsx";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import useResponsive from "../components/Hooks/useResponsive.jsx";
 import MainChart from "../components/Charts/MainChart.jsx";
 import Header from "../components/Header/Header.jsx";
@@ -11,7 +11,7 @@ import CustomSelect from "../components/Buttons/CustomSelect.jsx";
 import PredictionChart from "../components/Charts/PredictionChart.jsx";
 
 function HomePage() {
-  const { isMediumScreen, isLargeScreen } = useResponsive();
+  const { isMediumScreen } = useResponsive();
 
   const [period, setPeriod] = useState("2025-06-10");
   const [predictPeriod, setPredictPeriod] = useState("");
@@ -129,7 +129,6 @@ function HomePage() {
                   <CustomSelect
                     options={equipmentOptions}
                     maxWidth={"6em"}
-                    // size={"small"}
                     label={"Equipments"}
                     value={predictEquipment}
                     onChange={(e) => setPredictEquipment(e.target.value)}

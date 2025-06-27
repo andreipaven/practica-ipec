@@ -29,7 +29,7 @@ async function checkConnection() {
     const connection = await pool.getConnection();
 
     await connection.ping();
-    console.log("DB connection successfullyx!");
+    console.log("DB connection successfully!");
     connection.release();
   } catch (err) {
     console.error("Failed connection DB:", err);

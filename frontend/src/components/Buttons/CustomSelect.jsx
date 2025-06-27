@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 import useResponsive from "../Hooks/useResponsive.jsx";
 
@@ -31,7 +31,6 @@ function CustomSelect({
       fullWidth={true}
       size={isMediumScreen ? "small" : "medium"}
     >
-      {/* Label legat corect cu labelId */}
       <InputLabel id={`${id}-label`}>{label}</InputLabel>
       <Select
         multiple={multiple || false}

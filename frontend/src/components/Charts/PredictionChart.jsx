@@ -94,7 +94,6 @@ function PredictionChart({ predictPeriod, predictEquipment }) {
     }
   };
   const handlePredictResult = (result) => {
-    console.log(result.result);
     if (result.success) {
       const rawData = result.result;
       let baseDate = null;

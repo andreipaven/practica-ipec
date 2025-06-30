@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 import useResponsive from "../Hooks/useResponsive.jsx";
 
@@ -11,6 +11,7 @@ function CustomSelect({
   label,
   fontSize,
   multiple,
+  lastChanged,
   id = "custom-select",
   ...rest
 }) {
@@ -21,6 +22,13 @@ function CustomSelect({
     ? Array.isArray(value) && value.length === 0
     : value === "";
   const shouldShrink = isFocused || !isEmptyValue;
+
+  useEffect(() => {
+    if (lastChanged === "default") {
+      const resetValue = multiple ? [] : "";
+      onChange({ target: { value: resetValue } });
+    }
+  }, [lastChanged]);
 
   return (
     <FormControl

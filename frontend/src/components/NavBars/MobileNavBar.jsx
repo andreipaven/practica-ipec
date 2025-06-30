@@ -11,6 +11,7 @@ function MobileNavBar({
   onChangePeriod,
   onChangeEquipment,
   optionsEquipments,
+  lastChanged,
 }) {
   const { isSmallScreen } = useResponsive();
   const [period, setPeriod] = useState("");
@@ -32,6 +33,13 @@ function MobileNavBar({
     { value: "2025-05-17", label: "Last Month" },
     { value: "2025-01-01", label: "Last Year" },
   ];
+
+  useEffect(() => {
+    if (lastChanged === "custom") {
+      setPeriod("");
+      setEquipment("");
+    }
+  }, [lastChanged]);
 
   useEffect(() => {
     fetchGetEquipments().then((result) => {

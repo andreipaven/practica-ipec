@@ -42,6 +42,7 @@ function HomePage() {
 
   useEffect(() => {
     setLastChanged("default");
+    setCustomEquipments([]);
   }, [period, equipment]);
 
   return (
@@ -50,6 +51,7 @@ function HomePage() {
         equipmentX={setEquipment}
         periodX={setPeriod}
         optionsEquipments={setEquipmentOptions}
+        lastChanged={lastChanged}
       />
 
       <CustomBox padding={isMediumScreen ? "1em" : "1em 3em"} gap={"1em"}>
@@ -86,13 +88,21 @@ function HomePage() {
                 // size={"small"}
                 label={"Equipments"}
                 value={customEquipments}
-                onChange={(e) => setCustomEquipments(e.target.value)}
+                onChange={(e) => {
+                  setCustomEquipments(e.target.value);
+                  setLastChanged("custom");
+                }}
               />
               <CustomDatePicker
                 label={"Start date"}
                 onChange={handleStartDate}
+                lastChanged={lastChanged}
               />
-              <CustomDatePicker label={"End date"} onChange={handleEndDate} />
+              <CustomDatePicker
+                lastChanged={lastChanged}
+                label={"End date"}
+                onChange={handleEndDate}
+              />
             </CustomBox>
           </CustomBox>
           <CustomBox gap={"1em"}>

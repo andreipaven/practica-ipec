@@ -22,7 +22,7 @@ function MainChart({
   const { isSmallScreen } = useResponsive();
   const [series, setSeries] = useState([]);
 
-  const path = useRef(null);
+  const [path, setPath] = useState(null);
 
   const [state] = useState({
     options: {
@@ -61,7 +61,10 @@ function MainChart({
   });
 
   const handleMultiEquipmentResult = (result) => {
-    if (!result.success || !result.result) return;
+    if (!result.success || !result.result) {
+      notify("This equipment has not been operating recently!");
+      return;
+    }
 
     const rawData = result.result;
 
@@ -144,29 +147,39 @@ function MainChart({
   };
 
   useEffect(() => {
+    setSeries([]);
+
     if (period && equipment && lastChanged === "default") {
-      path.current = false;
+      setPath(false);
     } else if (
       startDate &&
       endDate &&
       customEquipments.length > 0 &&
       lastChanged === "custom"
     ) {
-      path.current = true;
+      setPath(true);
     }
 
-    if (path.current === false) {
+    if (path === false) {
       if (period === "2025-06-16") {
         fetchGetDayReport(period, equipment).then(handleResult);
       } else {
         fetchGetReports(period, equipment).then(handleResult);
       }
-    } else if (path.current === true) {
+    } else if (path === true && lastChanged === "custom") {
       fetchGetReportsCustomPeriod(startDate, endDate, customEquipments).then(
         handleMultiEquipmentResult,
       );
     }
-  }, [period, equipment, endDate, startDate, lastChanged, customEquipments]);
+  }, [
+    period,
+    equipment,
+    endDate,
+    startDate,
+    lastChanged,
+    customEquipments,
+    path,
+  ]);
 
   return (
     <div

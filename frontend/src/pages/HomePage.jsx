@@ -137,6 +137,7 @@ function HomePage() {
                   justifyContent={"end"}
                 >
                   <CustomSelect
+                    customOptions={"ALL"}
                     options={equipmentOptions}
                     maxWidth={"6em"}
                     label={"Equipments"}

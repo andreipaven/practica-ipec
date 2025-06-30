@@ -12,6 +12,7 @@ function CustomSelect({
   fontSize,
   multiple,
   lastChanged,
+  customOptions,
   id = "custom-select",
   ...rest
 }) {
@@ -56,6 +57,12 @@ function CustomSelect({
         {value === undefined && (
           <MenuItem value="" disabled>
             {isFocused ? undefined : label}
+          </MenuItem>
+        )}
+
+        {customOptions && (
+          <MenuItem key={customOptions} value={customOptions}>
+            {customOptions}
           </MenuItem>
         )}
 

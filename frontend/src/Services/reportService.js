@@ -125,6 +125,55 @@ export const fetchGetPredictReports = async (equipment) => {
     return { success: false, message: "Network error. Please try again." + e };
   }
 };
+export const fetchGetPredictReportsAll = async () => {
+  try {
+    const response = await fetch(
+      `http://${ip}:${port}/api/report/get-predict-period-all`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    const data = await response.json();
+
+    return response.ok
+      ? { success: true, message: data.message, result: data.data }
+      : {
+          success: false,
+          message: data.message || "Unknown error",
+          result: data.data,
+        };
+  } catch (e) {
+    return { success: false, message: "Network error. Please try again." + e };
+  }
+};
+
+export const fetchGetPredictReportsWeekAll = async () => {
+  try {
+    const response = await fetch(
+      `http://${ip}:${port}/api/report/get-predict-period-week-all`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    const data = await response.json();
+
+    return response.ok
+      ? { success: true, message: data.message, result: data.data }
+      : {
+          success: false,
+          message: data.message || "Unknown error",
+          result: data.data,
+        };
+  } catch (e) {
+    return { success: false, message: "Network error. Please try again." + e };
+  }
+};
 export const fetchGetPredictReportsWeek = async (equipment) => {
   try {
     const response = await fetch(
@@ -177,5 +226,31 @@ export const fetchGetAnnualCost = async () => {
       success: false,
       message: "Network error. Please try again." + e,
     };
+  }
+};
+
+export const fetchGetReportsAll = async (period) => {
+  try {
+    const response = await fetch(
+      `http://${ip}:${port}/api/report/get-period-all`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ period: period }),
+      },
+    );
+    const data = await response.json();
+
+    return response.ok
+      ? { success: true, message: data.message, result: data.data }
+      : {
+          success: false,
+          message: data.message || "Unknown error",
+          result: data.data,
+        };
+  } catch (e) {
+    return { success: false, message: "Network error. Please try again." + e };
   }
 };

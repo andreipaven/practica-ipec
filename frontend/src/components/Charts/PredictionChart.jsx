@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import {
   fetchGetPredictReports,
+  fetchGetPredictReportsAll,
   fetchGetPredictReportsWeek,
+  fetchGetPredictReportsWeekAll,
   fetchGetReports,
+  fetchGetReportsAll,
 } from "../../Services/reportService.js";
 import useResponsive from "../Hooks/useResponsive.jsx";
 import themeColors from "../../Themes/themeColors.jsx";
@@ -90,10 +93,11 @@ function PredictionChart({ predictPeriod, predictEquipment }) {
         },
       ]);
     } else {
-      notify('notify("This equipment has not been operating recently!");');
+      notify("This equipment has not been operating recently!");
     }
   };
   const handlePredictResult = (result) => {
+    console.log(result);
     if (result.success) {
       const rawData = result.result;
       let baseDate = null;
@@ -139,11 +143,23 @@ function PredictionChart({ predictPeriod, predictEquipment }) {
   useEffect(() => {
     if (predictEquipment && predictPeriod) {
       if (predictPeriod === "2025-06-10") {
-        fetchGetReports(predictPeriod, predictEquipment).then(handleResult);
-        fetchGetPredictReportsWeek(predictEquipment).then(handlePredictResult);
+        if (predictEquipment === "ALL") {
+          fetchGetReportsAll(predictPeriod).then(handleResult);
+          fetchGetPredictReportsWeekAll().then(handlePredictResult);
+        } else {
+          fetchGetReports(predictPeriod, predictEquipment).then(handleResult);
+          fetchGetPredictReportsWeek(predictEquipment).then(
+            handlePredictResult,
+          );
+        }
       } else if (predictPeriod === "2025-05-17") {
-        fetchGetReports(predictPeriod, predictEquipment).then(handleResult);
-        fetchGetPredictReports(predictEquipment).then(handlePredictResult);
+        if (predictEquipment === "ALL") {
+          fetchGetReportsAll(predictPeriod).then(handleResult);
+          fetchGetPredictReportsAll().then(handlePredictResult);
+        } else {
+          fetchGetReports(predictPeriod, predictEquipment).then(handleResult);
+          fetchGetPredictReports(predictEquipment).then(handlePredictResult);
+        }
       }
     }
   }, [predictPeriod, predictEquipment]);

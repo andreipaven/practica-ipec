@@ -189,12 +189,78 @@ router.post("/get-predict-period", async (req, res) => {
     });
   }
 });
+router.post("/get-predict-period-all", async (req, res) => {
+  try {
+    const sql =
+      "SELECT ((DAY(day) - 17 + 31) % 31) + 1 AS day_of_month, ROUND(AVG(total_daily_consumption_capped), 2) AS average_consumption, COUNT(*) AS number_of_days FROM (SELECT day, SUM(daily_consumption_capped) AS total_daily_consumption_capped FROM (SELECT DATE(created) AS day, SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) AS equipment, LEAST((MAX(val) - MIN(val)) / MAX(de_impartit_la), 30000) AS daily_consumption_capped FROM reports WHERE val != 0 GROUP BY day, equipment) AS per_equipment_capped GROUP BY day) AS daily_totals_capped GROUP BY day_of_month ORDER BY day_of_month;";
+    const [results] = await pool.execute(sql);
+
+    if (!results) {
+      return res.status(500).json({
+        success: false,
+        message: "Database error - no results returned",
+      });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({
+        success: true,
+        message: "No reports found",
+        data: [],
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Reports retrieved successfully",
+      data: results,
+    });
+  } catch (error) {
+    console.error("Error fetching reports:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve reports",
+      error: error.message,
+    });
+  }
+});
 router.post("/get-predict-period-week", async (req, res) => {
   const { equipment } = req.body;
   try {
     const sql =
       "SELECT DAY(day) AS day_of_month, ROUND(AVG(daily_consumption), 2) AS average_consumption, COUNT(*) AS number_of_days FROM (SELECT DATE(created) AS day, SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) AS equipment, (MAX(val) - MIN(val))/MAX(de_impartit_la) AS daily_consumption FROM reports WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) = ? AND val != 0 GROUP BY day, equipment) AS daily_data WHERE DAY(day) BETWEEN 10 AND 16 GROUP BY day_of_month ORDER BY day_of_month;\n";
     const [results] = await pool.execute(sql, [`${equipment}`]);
+
+    if (!results) {
+      return res.status(500).json({
+        success: false,
+        message: "Database error - no results returned",
+      });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({
+        success: true,
+        message: "No reports found",
+        data: [],
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Reports retrieved successfully",
+      data: results,
+    });
+  } catch (error) {
+    console.error("Error fetching reports:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve reports",
+      error: error.message,
+    });
+  }
+});
+router.post("/get-predict-period-week-all", async (req, res) => {
+  try {
+    const sql =
+      "SELECT DAY(day) AS day_of_month, ROUND(AVG(total_daily_consumption_capped), 2) AS average_consumption, COUNT(*) AS number_of_days FROM (SELECT day, SUM(daily_consumption_capped) AS total_daily_consumption_capped FROM (SELECT DATE(created) AS day, SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) AS equipment, LEAST((MAX(val) - MIN(val)) / MAX(de_impartit_la), 40000) AS daily_consumption_capped FROM reports WHERE val != 0 GROUP BY day, equipment) AS per_equipment_capped GROUP BY day) AS daily_totals_capped WHERE DAY(day) BETWEEN 10 AND 16 GROUP BY day_of_month ORDER BY day_of_month;";
+    const [results] = await pool.execute(sql);
 
     if (!results) {
       return res.status(500).json({
@@ -251,6 +317,41 @@ router.get("/get-annual-cost", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to retrieve annual cost",
+      error: error.message,
+    });
+  }
+});
+
+router.post("/get-period-all", async (req, res) => {
+  const { period } = req.body;
+  try {
+    const sql =
+      "SELECT day, SUM(daily_con) AS daily_consumption FROM ( SELECT DATE(created) AS day, SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) AS equipment, (MAX(val) - MIN(val)) / MAX(de_impartit_la) AS daily_con FROM reports WHERE created >= ? AND val != 0 GROUP BY day, equipment ) AS daily_per_equipment GROUP BY day ORDER BY day DESC;";
+    const [results] = await pool.execute(sql, [`${period} 23:59:00`]);
+
+    if (!results) {
+      return res.status(500).json({
+        success: false,
+        message: "Database error - no results returned",
+      });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({
+        success: true,
+        message: "No reports found",
+        data: [],
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Reports retrieved successfully",
+      data: results,
+    });
+  } catch (error) {
+    console.error("Error fetching reports:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve reports",
       error: error.message,
     });
   }

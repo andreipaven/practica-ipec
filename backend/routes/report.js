@@ -224,4 +224,36 @@ router.post("/get-predict-period-week", async (req, res) => {
   }
 });
 
+router.get("/get-annual-cost", async (req, res) => {
+  try {
+    const sql =
+      "SELECT ROUND(SUM(daily_consumption), 3) AS total_daily_consumption FROM (SELECT DATE(created) AS day, SUBSTRING_INDEX(SUBSTRING_INDEX(parametru, '.', 2), '.', -1) AS equipment, (MAX(val) - MIN(val)) / MAX(de_impartit_la) AS daily_consumption FROM reports WHERE created >= '2025-01-01' AND val != 0 GROUP BY day, equipment) AS sub;";
+
+    const [results] = await pool.execute(sql);
+
+    if (!results || results.length === 0) {
+      return res.status(404).json({
+        success: true,
+        message: "No consumption data found",
+        data: 0,
+      });
+    }
+
+    const value = results[0].total_daily_consumption ?? 0;
+
+    res.status(200).json({
+      success: true,
+      message: "Annual cost retrieved successfully",
+      data: value,
+    });
+  } catch (error) {
+    console.error("Error fetching annual cost:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve annual cost",
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;

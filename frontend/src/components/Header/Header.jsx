@@ -7,11 +7,13 @@ import useResponsive from "../Hooks/useResponsive.jsx";
 function Header({ periodX, equipmentX, optionsEquipments, lastChanged }) {
   const { isMediumScreen } = useResponsive();
   return (
-    <CustomBox width={"100%"}>
+    <CustomBox
+      width={"100%"}
+      backgroundColor={themeColors.palette.primary.light}
+    >
       <CustomBox
         maxWidth={"100em"}
         padding={isMediumScreen ? "1em" : "1em 3em"}
-        backgroundColor={themeColors.palette.primary.light}
       >
         <MobileNavBar
           optionsEquipments={optionsEquipments}
